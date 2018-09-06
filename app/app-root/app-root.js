@@ -27,5 +27,10 @@ function onNavigationItemTap(args) {
     drawerComponent.closeDrawer();
 }
 
+function phoneMicrosomes(args){
+    console.log("initalizing call to microsomes");
+}
+
+exports.phoneMicrosomes=phoneMicrosomes;
 exports.onLoaded = onLoaded;
 exports.onNavigationItemTap = onNavigationItemTap;

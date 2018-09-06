@@ -18,8 +18,11 @@ if(isDevelopment){
 const GRAB_RECENT=DOMAIN+"recent";
 //exposes the recent api link 
 
+const GRAB_SOURCES= DOMAIN+"sources"
+
 
 module.exports={
-    GRAB_RECENT
+    GRAB_RECENT,
+    GRAB_SOURCES
 }
 //exports all the constant api endpoint links

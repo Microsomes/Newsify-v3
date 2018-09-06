@@ -112,6 +112,25 @@ http://docs.telerik.com/devtools/nativescript-ui/Controls/NativeScript/SideDrawe
                         <Label row="0" col="1" text="Why do Feminists hate men?" class="p-r-10" />
                     </GridLayout>
 
+                     <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Settings" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf071;" class="fa" />
+                        <Label row="0" col="1" text="Is the USA to blame for 911?" class="p-r-10" />
+                    </GridLayout>
+
+                    <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Settings" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf071;" class="fa" />
+                        <Label row="0" col="1" text="The FBI commit 95% of the worlds terroism" class="p-r-10" />
+                    </GridLayout>
+
+                    <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Settings" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf071;" class="fa" />
+                        <Label row="0" col="1" text="Is Freedom of speech really free?" class="p-r-10" />
+                    </GridLayout>
+
+
                     <Label textWrap="true" style="text-align:center" text="Taboo related knowledge info is updated every Friday"></Label>
 
                     
@@ -132,6 +151,12 @@ http://docs.telerik.com/devtools/nativescript-ui/Controls/NativeScript/SideDrawe
                         route="settings/settings-page" title="Settings" tap="onNavigationItemTap">
                         <Label row="0" col="0" text="&#xf067;" class="fa" />
                         <Label row="0" col="1" text="Request a Source" class="p-r-10" />
+                    </GridLayout>
+
+                      <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Request' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Settings" tap="phoneMicrosomes">
+                        <Label row="0" col="0" text="&#xf095;" class="fa" />
+                        <Label row="0" col="1" text="Contact Newsify" class="p-r-10" />
                     </GridLayout>
 
 

@@ -50,7 +50,7 @@ function BrowseViewModel() {
         ],
         onItemTap:function(args){
             //user clicked on a source
-            console.log("sources"+args.index);
+            console.log("sources"+sources[args.index].Source);
         }
     });
 

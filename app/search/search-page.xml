@@ -2,7 +2,7 @@
     navigatingTo="onNavigatingTo"  
     xmlns="http://schemas.nativescript.org/tns.xsd">
 
-    <ActionBar  backgroundColor="#EA2923" class="action-bar">
+    <ActionBar flat="true" backgroundColor="#A9A9A9" class="action-bar">
         <!-- 
         Use the NavigationButton as a side-drawer button in Android
         because ActionItems are shown on the right side of the ActionBar
@@ -21,8 +21,31 @@
         <Label class="action-bar-title" text="Search Articles"></Label>
     </ActionBar>
 
-    <GridLayout class="page-content">
-        <Label class="page-icon fa" text="&#xf002;"></Label>
-        <Label class="page-placeholder" text="<!-- Page content goes here -->"></Label>
-    </GridLayout>
+    <StackLayout class="page-content">
+        <FlexboxLayout alignItems="center" justifyContent="center" height="70" backgroundColor="#A9A9A9">
+            <Label color="white" style="text-align:center" text="Search... anything"></Label>
+        </FlexboxLayout>
+
+<TabView androidSelectedTabHighlightColor="#A9A9A9" id="tabViewContainer">
+    <TabViewItem title="Past Searches">
+        <StackLayout>
+             <ScrollView>
+                <StackLayout height="100%">
+                    <Label color="black" text="no past searches" textWrap="true" class="m-15" />
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </TabViewItem>
+    <TabViewItem title="Saved Searches">
+        <StackLayout>
+             <ScrollView>
+                <StackLayout height="100%">
+                    <Label color="black" text="no saved searches" textWrap="true" class="m-15" />
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </TabViewItem>
+</TabView>
+
+    </StackLayout>
 </Page>

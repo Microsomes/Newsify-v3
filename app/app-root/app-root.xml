@@ -164,6 +164,7 @@ http://docs.telerik.com/devtools/nativescript-ui/Controls/NativeScript/SideDrawe
 
                      <StackLayout class="hr-light"></StackLayout>
                     <Label style="text-align:center;padding:20px" text="App: Version 3.0.0"></Label>
+                    <Label style="text-align:center;padding:20px" text="{{totalArticles}}"></Label>
 
                 </StackLayout>
             </ScrollView>

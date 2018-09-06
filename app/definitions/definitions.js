@@ -20,9 +20,12 @@ const GRAB_RECENT=DOMAIN+"recent";
 
 const GRAB_SOURCES= DOMAIN+"sources"
 
+const GRAB_TOTAL=DOMAIN+"total";
+
 
 module.exports={
     GRAB_RECENT,
-    GRAB_SOURCES
+    GRAB_SOURCES,
+    GRAB_TOTAL
 }
 //exports all the constant api endpoint links

@@ -1,0 +1,80 @@
+<Page
+    class="page"
+    navigatingTo="onNavigatingTo" 
+    loaded="onNavigatingTo" 
+ 
+    xmlns:PullRefresh="nativescript-pulltorefresh"
+    xmlns="http://schemas.nativescript.org/tns.xsd">
+
+    <ActionBar flat="true" backgroundColor="#EA2923" class="action-bar">
+        <!-- 
+        Use the NavigationButton as a side-drawer button in Android
+        because ActionItems are shown on the right side of the ActionBar
+        -->
+        <NavigationButton ios:visibility="collapsed" icon="res://menu" tap="onDrawerButtonTap"></NavigationButton>
+        <!-- 
+        Use the ActionItem for IOS with position set to left. Using the
+        NavigationButton as a side-drawer button in iOS is not possible,
+        because its function is to always navigate back in the application.
+        -->
+        <ActionItem icon="res://navigation/menu" 
+            android:visibility="collapsed" 
+            tap="onDrawerButtonTap"
+            ios.position="left">
+        </ActionItem>
+    
+    <ActionItem
+    text="Toggle View"
+    android.position="popup"
+    tap="{{toggleView}}"
+    >
+    </ActionItem>
+
+        <Label class="action-bar-title" text="Recent News"></Label>
+    </ActionBar>
+
+<StackLayout>
+    
+
+ 
+    <StackLayout id="basic_artilce_viewing">
+    <PullRefresh:PullToRefresh refresh="{{refreshList}}">
+     	<ListView    class="list-group" items="{{ countries }}" itemTap="{{ onItemTap }}" style="height:1250px">
+				<ListView.itemTemplate>
+					<FlexboxLayout flexDirection="row" class="list-group-item">
+						<Image  src="{{ UrlToImage }}" class="thumb img-circle" />
+						<Label text="{{ Title }}" class="list-group-item-heading" verticalAlignment="center" style="width: 80%" />
+					</FlexboxLayout>
+				</ListView.itemTemplate>
+		</ListView>
+    </PullRefresh:PullToRefresh>  
+    </StackLayout>      
+
+    
+    <StackLayout id="advanced_artilce_viewing">
+    <PullRefresh:PullToRefresh refresh="{{refreshList}}">
+
+        <ListView    class="list-group" items="{{ countries }}" itemTap="{{ onItemTap }}" style="height:1250px">
+				<ListView.itemTemplate>
+					<FlexboxLayout flexDirection="column" class="list-group-item">
+						<Image  src="{{ UrlToImage }}" />
+						<Label textWrap="true" class="article_title" text="{{Title}}"   verticalAlignment="center" style="width: 100%" />
+                        
+                        <FlexboxLayout flexDirection="row">
+                        <Label class="authorText" width="50%" text="{{Author}}"></Label>
+                        <Label class="authorText" width="50%" text="{{now}}"></Label>
+                        
+                        </FlexboxLayout>
+
+
+                    </FlexboxLayout>
+				</ListView.itemTemplate>
+		</ListView>
+    </PullRefresh:PullToRefresh>        
+    </StackLayout>
+
+
+
+
+</StackLayout>
+</Page>

@@ -1,0 +1,151 @@
+<!--
+RadSideDrawer is a UI component part of the Progress NativeScript UI set of components.
+Learn more about the RadSideDrawer UI component and how it can be customized in this documentation article:
+http://docs.telerik.com/devtools/nativescript-ui/Controls/NativeScript/SideDrawer/getting-started
+-->
+<nsDrawer:RadSideDrawer id="sideDrawer" xmlns:nsDrawer="nativescript-ui-sidedrawer" loaded="onLoaded">
+    <nsDrawer:RadSideDrawer.drawerTransition>
+        <nsDrawer:SlideInOnTopTransition/>
+    </nsDrawer:RadSideDrawer.drawerTransition>
+
+    <nsDrawer:RadSideDrawer.drawerContent>
+        <GridLayout rows="auto, *" class="sidedrawer sidedrawer-left">
+            <StackLayout backgroundColor="#EA2923" color="white" class="sidedrawer-header">
+                <Label class="sidedrawer-header-image fa" text="&#xf02d;" />
+                <Label class="sidedrawer-header-brand" text="Newsify" />
+                <Label style="color:white" textWrap="true" class="footnote" text="Opening the world to the all sorts of news." />
+            </StackLayout>
+
+            <ScrollView row="1">
+                <StackLayout class="sidedrawer-content">
+                
+                    <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Home' ? ' selected': '') }}"
+                        route="home/home-page" title="Home" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf015;" class="fa" />
+                        <Label row="0" col="1" text="Home" class="p-r-10" />
+                    </GridLayout>
+
+                    <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Browse' ? ' selected': '') }}"
+                        route="browse/browse-page" title="Browse" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf1ea;" class="fa" />
+                        <Label row="0" col="1" text="Browse Sources" class="p-r-10" />
+                    </GridLayout>
+
+                    <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Search' ? ' selected': '') }}"
+                        route="search/search-page" title="Search" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf002;" class="fa" />
+                        <Label row="0" col="1" text="Search Articles" class="p-r-10" />
+                    </GridLayout>
+
+                    <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Featured' ? ' selected': '') }}"
+                        route="featured/featured-page" title="Featured" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf005;" class="fa" />
+                        <Label row="0" col="1" text="Favorites" class="p-r-10" />
+                    </GridLayout>
+
+                    <StackLayout class="hr-light"></StackLayout>
+                    <Label textWrap="true" style="text-align:center" text="Experimental Features"></Label>
+
+                     <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Settings" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf06e;" class="fa" />
+                        <Label row="0" col="1" text="Stalker Mode Beta" class="p-r-10" />
+                    </GridLayout>
+
+                    <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '') }}"
+                        route="settings/settings-page" title="World War Summaries beta" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf669;" class="fa" />
+                        <Label row="0" col="1" text="World War Summaries Beta" class="p-r-10" />
+                    </GridLayout>
+
+                     <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Never Ending Facts beta" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf275;" class="fa" />
+                        <Label row="0" col="1" text="Never Ending Facts Beta" class="p-r-10" />
+                    </GridLayout>
+
+                    <StackLayout class="hr-light"></StackLayout>
+                    <Label textWrap="true" style="text-align:center" text="Professional Boxing, UFC and Youtube Boxing"></Label>
+
+                    <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Never Ending Facts beta" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf438;" class="fa" />
+                        <Label row="0" col="1" text="Professional Boxing Beta" class="p-r-10" />
+                    </GridLayout>
+
+                    <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Never Ending Facts beta" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf438;" class="fa" />
+                        <Label row="0" col="1" text="UFC Beta" class="p-r-10" />
+                    </GridLayout>
+
+                    <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Never Ending Facts beta" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf438;" class="fa" />
+                        <Label row="0" col="1" text="Youtube Boxing Beta" class="p-r-10" />
+                    </GridLayout>
+
+                    <StackLayout class="hr-light"></StackLayout>
+                    <Label textWrap="true" style="text-align:center" text="Fun Taboo Knowledge, interesting answers to the most taboo questions"></Label>
+                    
+                    <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Settings" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf071;" class="fa" />
+                        <Label row="0" col="1" text="Ways to commit murder" class="p-r-10" />
+                    </GridLayout>
+
+                     <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Settings" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf071;" class="fa" />
+                        <Label row="0" col="1" text="Suicidal last notes" class="p-r-10" />
+                    </GridLayout>
+
+                     <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Settings" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf071;" class="fa" />
+                        <Label row="0" col="1" text="Best Ways to commit suicide" class="p-r-10" />
+                    </GridLayout>
+
+                    <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Settings" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf071;" class="fa" />
+                        <Label row="0" col="1" text="Why do Feminists hate men?" class="p-r-10" />
+                    </GridLayout>
+
+                    <Label textWrap="true" style="text-align:center" text="Taboo related knowledge info is updated every Friday"></Label>
+
+                    
+
+
+                    <StackLayout class="hr-light"></StackLayout>
+
+                    <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Settings' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Settings" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf013;" class="fa" />
+                        <Label row="0" col="1" text="Settings" class="p-r-10" />
+                    </GridLayout>
+
+                   
+                    
+                    
+                     <GridLayout columns="auto, *" class="{{ 'sidedrawer-list-item' + (selectedPage === 'Request' ? ' selected': '') }}"
+                        route="settings/settings-page" title="Settings" tap="onNavigationItemTap">
+                        <Label row="0" col="0" text="&#xf067;" class="fa" />
+                        <Label row="0" col="1" text="Request a Source" class="p-r-10" />
+                    </GridLayout>
+
+
+
+
+                     <StackLayout class="hr-light"></StackLayout>
+                    <Label style="text-align:center;padding:20px" text="App: Version 3.0.0"></Label>
+
+                </StackLayout>
+            </ScrollView>
+        </GridLayout>
+    </nsDrawer:RadSideDrawer.drawerContent>
+
+    <nsDrawer:RadSideDrawer.mainContent>
+        <Frame defaultPage="home/home-page"></Frame>
+    </nsDrawer:RadSideDrawer.mainContent>
+</nsDrawer:RadSideDrawer>

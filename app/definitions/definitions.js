@@ -1,7 +1,7 @@
 
 
 
-var isDevelopment=false;
+var isDevelopment=true;
 //determines if the app should connect to the development server or the main production server
 
 var DOMAIN=null;

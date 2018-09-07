@@ -1,0 +1,28 @@
+<Page
+    navigatingTo="onNavigatingTo"  
+    xmlns="http://schemas.nativescript.org/tns.xsd">
+
+    <ActionBar flat="true" backgroundColor="#A9A9A9" class="action-bar">
+        <!-- 
+        Use the NavigationButton as a side-drawer button in Android
+        because ActionItems are shown on the right side of the ActionBar
+        -->
+        <NavigationButton text="Go back" color="white" android.systemIcon="ic_menu_back" tap="{{goBack}}" />
+        <!-- 
+        Use the ActionItem for IOS with position set to left. Using the
+        NavigationButton as a side-drawer button in iOS is not possible,
+        because its function is to always navigate back in the application.
+        -->
+        <ActionItem icon="res://navigation/menu" 
+            android:visibility="collapsed" 
+            tap="onDrawerButtonTap"
+            ios.position="left">
+        </ActionItem>
+        <Label class="action-bar-title" text="Search Articles"></Label>
+    </ActionBar>
+
+    <StackLayout class="page-content">
+            <SearchBar id="searchBar" hint="search anything" text="{{searchQuery}}"  clear="{{onClear}}" submit="{{onSubmit"}} />
+
+    </StackLayout>
+</Page>

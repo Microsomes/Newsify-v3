@@ -22,7 +22,7 @@
     </ActionBar>
 
     <StackLayout class="page-content">
-        <FlexboxLayout alignItems="center" justifyContent="center" height="70" backgroundColor="#A9A9A9">
+        <FlexboxLayout class="search_bar" tap="{{openSearch}}" alignItems="center" justifyContent="center" height="70" backgroundColor="#A9A9A9">
             <Label color="white" style="text-align:center" text="Search... anything"></Label>
         </FlexboxLayout>
 

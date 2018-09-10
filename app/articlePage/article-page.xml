@@ -22,6 +22,11 @@
             tap="onDrawerButtonTap"
             ios.position="left">
         </ActionItem>
+
+         <ActionItem  icon="res://heart_1_w" 
+         tap="{{favourite}}"
+         />
+
         <Label  class="action-bar-title" text="Reading Article..."></Label>
     </ActionBar>
 

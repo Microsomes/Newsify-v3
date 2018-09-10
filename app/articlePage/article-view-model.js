@@ -1,6 +1,7 @@
 const observableModule = require("data/observable");
 
 const SelectedPageService = require("../shared/selected-page-service");
+var nstoasts = require("nativescript-toasts");
 
 function BrowseViewModel(page) {
     SelectedPageService.getInstance().updateSelectedPage("Browse");
@@ -17,6 +18,15 @@ function BrowseViewModel(page) {
           console.log("go back ");  
           const topmost = require("ui/frame").topmost;
             topmost().goBack();
+        },
+        favourite:function(args){
+            console.log("fav");
+            var options = {
+                text: "Favourited",
+                duration : nstoasts.DURATION.SHORT,
+                position : nstoasts.POSITION.BOTTOM //optional
+            }
+            nstoasts.show(options);
         }
     });
 

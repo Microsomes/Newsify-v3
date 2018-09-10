@@ -1,7 +1,7 @@
 
 
 
-var isDevelopment=true;
+var isDevelopment=false;
 //determines if the app should connect to the development server or the main production server
 
 var DOMAIN=null;
@@ -22,10 +22,16 @@ const GRAB_SOURCES= DOMAIN+"sources"
 
 const GRAB_TOTAL=DOMAIN+"total";
 
+const GRAB_SEARCH=DOMAIN+"search";
+
+const GRAB_NEWS_BY_SOURCE=DOMAIN+"source";
+
 
 module.exports={
     GRAB_RECENT,
     GRAB_SOURCES,
-    GRAB_TOTAL
+    GRAB_TOTAL,
+    GRAB_SEARCH,
+    GRAB_NEWS_BY_SOURCE
 }
 //exports all the constant api endpoint links

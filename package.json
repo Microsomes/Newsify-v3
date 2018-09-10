@@ -14,9 +14,13 @@
   },
   "dependencies": {
     "moment": "^2.22.2",
+    "nativescript-localstorage": "^1.1.5",
+    "nativescript-popup": "^1.5.0",
     "nativescript-pulltorefresh": "^2.1.1",
     "nativescript-search-view": "^1.0.7",
+    "nativescript-sqlite": "^2.2.1",
     "nativescript-theme-core": "~1.0.4",
+    "nativescript-toasts": "^1.0.3",
     "nativescript-ui-sidedrawer": "~4.1.0",
     "rxjs": "~6.1.0",
     "tns-core-modules": "4.1.1"

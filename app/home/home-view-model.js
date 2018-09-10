@@ -15,6 +15,13 @@ const recent_api_grabber_url_link= DEFINITIONS.GRAB_RECENT;
 //api link to grab recent news posts
 onLoadNow();
 
+
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+
 var countries= [];
 
  function onLoadNow(){
@@ -29,6 +36,9 @@ var countries= [];
         dataArr.forEach(e=>{
             var fromNow= moment(e.CrawlDate).fromNow()
             e.now=fromNow;
+
+            e.sourceCap= capitalizeFirstLetter(e.Source)
+
         })
 
         console.log(dataArr);
@@ -81,11 +91,18 @@ function HomeViewModel(page) {
                 dataArr.forEach(e=>{
                     var fromNow= moment(e.CrawlDate).fromNow()
                     e.now=fromNow;
+                    e.sourceCap= capitalizeFirstLetter(e.Source)
+
                 })
 
                 viewModel.set("countries",dataArr);
         
-              
+                var basic_article_listview= page.getViewById("basic_article_listview");
+                basic_article_listview.refresh();
+
+                var advanced_article_listview= page.getViewById("advanced_article_listview");
+                advanced_article_listview.refresh();
+                 
                 
                 pullRefresh.refreshing =false;
         
@@ -95,6 +112,10 @@ function HomeViewModel(page) {
             });
 
 
+        },
+
+        openArticleMenu:function(args){
+        console.log(args);
         },
 
         countries:countries,

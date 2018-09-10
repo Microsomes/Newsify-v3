@@ -39,14 +39,22 @@
  
     <StackLayout id="basic_artilce_viewing">
     <PullRefresh:PullToRefresh refresh="{{refreshList}}">
-     	<ListView    class="list-group" items="{{ countries }}" itemTap="{{ onItemTap }}" style="height:1250px">
+     	<ListView id="basic_article_listview"    class="list-group" items="{{ countries }}" itemTap="{{ onItemTap }}" style="height:1250px">
 				<ListView.itemTemplate>
+                <FlexboxLayout flexDirection="column">
 					<FlexboxLayout flexDirection="row" class="list-group-item">
 						<Image  src="{{ UrlToImage }}" class="thumb img-circle" />
 						<Label text="{{ Title }}" class="list-group-item-heading" verticalAlignment="center" style="width: 80%" />
-					</FlexboxLayout>
+                     </FlexboxLayout>
+             
+                            <FlexboxLayout flexDirection="row">
+                            <Label class="authorText" width="50%" text="{{sourceCap}}"></Label>
+                            <Label class="authorText" width="50%" text="{{now}}"></Label>
+                            </FlexboxLayout>
+
+                </FlexboxLayout>
 				</ListView.itemTemplate>
-		</ListView>
+ 		</ListView>
     </PullRefresh:PullToRefresh>  
     </StackLayout>      
 
@@ -54,7 +62,7 @@
     <StackLayout id="advanced_artilce_viewing">
     <PullRefresh:PullToRefresh refresh="{{refreshList}}">
 
-        <ListView    class="list-group" items="{{ countries }}" itemTap="{{ onItemTap }}" style="height:1250px">
+        <ListView  id="advanced_article_listview"  class="list-group" items="{{ countries }}" itemTap="{{ onItemTap }}" style="height:1250px">
 				<ListView.itemTemplate>
 					<FlexboxLayout flexDirection="column" class="list-group-item">
 						<Image  src="{{ UrlToImage }}" />
@@ -65,6 +73,10 @@
                         <Label class="authorText" width="50%" text="{{now}}"></Label>
                         
                         </FlexboxLayout>
+
+                                      <Label class="authorText" width="50%" text="{{sourceCap}}"></Label>
+
+                         
 
 
                     </FlexboxLayout>

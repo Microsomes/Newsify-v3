@@ -4,6 +4,7 @@ const SelectedPageService = require("../shared/selected-page-service");
 
 const   DEFINITIONS= require("../definitions/definitions");
 //needed to get all api end points data
+const frameModule = require("ui/frame");
 
 
 const httpModule = require("http");
@@ -27,7 +28,7 @@ function loadSources(vm){
             e.cap= e.Source.toUpperCase();
         })
 
-        console.log(dataArr);
+        //console.log(dataArr);
 
         sources=dataArr;
         
@@ -51,6 +52,16 @@ function BrowseViewModel() {
         onItemTap:function(args){
             //user clicked on a source
             console.log("sources"+sources[args.index].Source);
+            var source= sources[args.index].Source;
+            frameModule.topmost().navigate({
+                moduleName: "browseOne/browse-page_one",
+                context:{source:source},
+                transition: {
+                    name: "flipRight",
+                    duration:500,
+                    curve:"easeIn"
+                }
+            });
         }
     });
 

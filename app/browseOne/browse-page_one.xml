@@ -1,15 +1,16 @@
 <Page
+    class="page"
     navigatingTo="onNavigatingTo"  
-        xmlns:PullRefresh="nativescript-pulltorefresh"
-        xmlns="http://schemas.nativescript.org/tns.xsd"
+    xmlns="http://schemas.nativescript.org/tns.xsd"
+     xmlns:PullRefresh="nativescript-pulltorefresh"
     >
 
-    <ActionBar flat="true" backgroundColor="#A9A9A9" class="action-bar">
+    <ActionBar  backgroundColor="#3232FF" class="action-bar">
         <!-- 
         Use the NavigationButton as a side-drawer button in Android
         because ActionItems are shown on the right side of the ActionBar
         -->
-        <NavigationButton text="Go back" color="white" android.systemIcon="ic_menu_back" tap="{{goBack}}" />
+        <NavigationButton ios:visibility="collapsed" icon="res://menu" tap="onDrawerButtonTap"></NavigationButton>
         <!-- 
         Use the ActionItem for IOS with position set to left. Using the
         NavigationButton as a side-drawer button in iOS is not possible,
@@ -20,15 +21,14 @@
             tap="onDrawerButtonTap"
             ios.position="left">
         </ActionItem>
-        <Label class="action-bar-title" text="Search Articles"></Label>
+        <Label  class="action-bar-title" text="{{currentSource}}"></Label>
     </ActionBar>
 
     <StackLayout class="page-content">
-            <SearchBar color="#A9A9A9" id="searchBar" hint="search anything" text="{{searchQuery}}"  clear="onClear" submit="onSubmit" />
-            
- <StackLayout id="advanced_artilce_viewing">
  
-        <ListView    class="list-group" items="{{ searchResults }}" itemTap="{{ onItemTap }}" style="height:1250px">
+      <PullRefresh:PullToRefresh refresh="{{refreshList}}">
+
+        <ListView id="browse_list"   class="list-group" items="{{ searchResults }}" itemTap="{{ onItemTap }}" style="height:1250px">
 				<ListView.itemTemplate>
 					<FlexboxLayout flexDirection="column" class="list-group-item">
 						<Image  src="{{ UrlToImage }}" />
@@ -37,19 +37,13 @@
                         <FlexboxLayout flexDirection="row">
                         <Label class="authorText" width="50%" text="{{Author}}"></Label>
                         <Label class="authorText" width="50%" text="{{now}}"></Label>
-                        
                         </FlexboxLayout>
 
 
                     </FlexboxLayout>
 				</ListView.itemTemplate>
 		</ListView>
+            </PullRefresh:PullToRefresh>  
+
      </StackLayout>
-
-
-
-            
-
-
-    </StackLayout>
 </Page>

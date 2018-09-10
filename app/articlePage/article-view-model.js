@@ -10,6 +10,10 @@ function BrowseViewModel(page) {
 
     const viewModel = observableModule.fromObject({
         /* Add your view model properties here */
+
+        castTo:function(){
+            console.log("casting to big screen...")
+        },
         link:grabLink,
         onWebViewLoaded:function(args){
             console.log("article has loaded");

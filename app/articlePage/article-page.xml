@@ -23,8 +23,15 @@
             ios.position="left">
         </ActionItem>
 
-         <ActionItem  icon="res://heart_1_w" 
+         <ActionItem  
          tap="{{favourite}}"
+         text="Favourite"
+         android.position="popup"
+         />
+
+         <ActionItem text="Cast to Big Screen"
+         android.position="popup"
+         tap="{{castTo}}"
          />
 
         <Label  class="action-bar-title" text="Reading Article..."></Label>

@@ -30,6 +30,9 @@ db_promise.then(function(db) {
     db.execSQL("CREATE TABLE IF NOT EXISTS articles (id INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Description TEXT, CrawlDate TEXT, Source TEXT, Author TEXT, Url TEXT, UrlToImage TEXT, tag TEXT, souceImageUrl TEXT, postType TEXT, newsType TEXT, latLng TEXT )").then(id=>{
      },error=>{
      })
+     db.execSQL("CREATE TABLE IF NOT EXISTS articles_fav (id INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Description TEXT, CrawlDate TEXT, Source TEXT, Author TEXT, Url TEXT, UrlToImage TEXT, tag TEXT, souceImageUrl TEXT, postType TEXT, newsType TEXT, latLng TEXT )").then(id=>{
+    },error=>{
+    })
 
 });
 
@@ -176,6 +179,7 @@ class Fav{
 
     saveFav(articleData){
         //saves an article to the favourite section
+
     }
     getFav(article_id){
         //grab favourite 

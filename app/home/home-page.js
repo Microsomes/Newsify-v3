@@ -43,6 +43,7 @@ function onNavigatingTo(args) {
     //     "latLng": null
     // })
 
+    mb.getAllSources();
     
  
     page.bindingContext.set("countries",[]);

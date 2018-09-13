@@ -11,6 +11,9 @@ const httpModule = require("http");
 
 
  
+var NETWORKs= require("../helper/network");
+var articleRelatedNet= new NETWORKs.ArticlesRelated()
+//needed to request data from the api
 
  
 
@@ -20,7 +23,19 @@ function BrowseViewModel() {
  
     const viewModel = observableModule.fromObject({
         /* Add your view model properties here */
+        refreshList:function(args){
+            //refresh the sources list
+            var pullRefresh= args.object;
 
+            articleRelatedNet.grabAllSouces().then(d=>{
+                viewModel.set("sources",[])
+                //empty current sources
+                viewModel.set("sources",d);
+                pullRefresh.refreshing=false;
+            })
+
+        }
+        ,
         sources:[
            
         ],

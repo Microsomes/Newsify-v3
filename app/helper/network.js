@@ -101,7 +101,7 @@ class ArticlesRelated{
  
             
 
-
+            
        
 
 
@@ -120,6 +120,7 @@ class ArticlesRelated{
                 if(lastGrabbed!=null){
                     var now= moment()
                     var exp= moment(lastGrabbed)
+                    console.log("diff",now.diff(exp,'minutes'))
                      if(now.diff(exp,'minutes')>100){
                         //expired continue
                     }else{
@@ -128,9 +129,8 @@ class ArticlesRelated{
                            //query the offline database instead
                         helper_grab_recent_from_local_database(resolve);
                         //passing the resolve function for the helper to
-
                         return;
-                    }
+                     }
 
   
                 }
@@ -143,6 +143,7 @@ class ArticlesRelated{
             
                     dataArr.forEach(e=>{
 
+                        console.log(e);
                         mb.saveArticle({
                             Title:e.Title,
                             Description:e.Description,
@@ -153,6 +154,7 @@ class ArticlesRelated{
                             UrlToImage:e.UrlToImage,
                             tag:e.tag,
                             souceImageUrl:e.souceImageUrl,
+                            postType: e.postType,
                             newsType: e.newsType,
                             latLng :e.latLng
                         })
@@ -201,7 +203,7 @@ class ArticlesRelated{
  
                      toResolve.unshift({
                         id: 99999,
-                        Title: "!Important You are using the Offline Feature of this app, you may carry on using the App as normal however clicking on articles will not load an article. Enjoy reading highlights of the news instead.",
+                        Title: "Important: You are using the Offline Feature of this app, you may carry on using the App as normal however clicking on articles will not load an article. Enjoy reading highlights of the news instead.",
                         Description:"",
                         CrawlDate: moment().format(),
                         Source: "Newsify-Offline",
@@ -233,10 +235,10 @@ class ArticlesRelated{
     //grabs all sources
     grabAllSouces(){
         return new Promise((resolve,reject)=>{
-            var isOnline=true;
-            //determines if the user is online of offline before processing
-    
-            if(isOnline){
+            
+            var isOnline= checkConnection()==="connection";
+            //determines if the user is online          
+             if(isOnline){
                 //the user is online
                 httpModule.getJSON(DEFINITIONS.GRAB_SOURCES).then((r) => {
                     var sources= r["sources"];
@@ -248,11 +250,38 @@ class ArticlesRelated{
                         e.cap= e.Source.toUpperCase();
                     })
                     resolve(sources);
-                }, (e) => {
+
+                    console.log("network");
+                 }, (e) => {
                     reject(e);
                 });
             }else{
                 //grab the data from the local database instead
+                mb.getAllSources().then(rows=>{
+
+                    console.log("grab offline sources")
+ 
+                    var toResolve=[]
+
+                     rows.forEach(row=>{
+                         toResolve.push({
+                            Source: row[0],
+                            souceImageUrl: row[1],
+                            cap:row[0].toUpperCase()
+                        })
+                     })
+
+ 
+                     toResolve.unshift({
+                        Source: "Some Sources may be missing in offline mode",
+                        souceImageUrl: "",
+                        cap: "Some Sources may be missing in offline mode",
+                     })
+            
+                 
+                     resolve(toResolve);
+                })
+                
             }
         })
          

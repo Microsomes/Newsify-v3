@@ -6,7 +6,7 @@ var Sqlite = require("nativescript-sqlite");
 
 
 //opens the database connection within the constructor
-var db_promise = new Sqlite("mainDB", function(err, db) {
+var db_promise = new Sqlite("mainDBmV", function(err, db) {
     if (err) {
         console.error("We failed to open database", err);
     } else {
@@ -14,6 +14,8 @@ var db_promise = new Sqlite("mainDB", function(err, db) {
         console.log("Are we open yet (Inside Callback)? ", db.isOpen() ? "Yes" : "No"); // Yes
     }
 });
+
+//TODO FIX THE articles table integrity
 
 
 //create the savedSearches table
@@ -28,7 +30,7 @@ db_promise.then(function(db) {
     })
 
     
-    db.execSQL("CREATE TABLE IF NOT EXISTS articles (id INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Description TEXT, CrawlDate TEXT, Source TEXT, Author TEXT, UrlToImage TEXT, tag TEXT, souceImageUrl TEXT, postType TEXT, newsType TEXT, latLng TEXT )").then(id=>{
+    db.execSQL("CREATE TABLE IF NOT EXISTS articles (id INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Description TEXT, CrawlDate TEXT, Source TEXT, Author TEXT, Url TEXT, UrlToImage TEXT, tag TEXT, souceImageUrl TEXT, postType TEXT, newsType TEXT, latLng TEXT )").then(id=>{
         console.log(id);
     },error=>{
         console.log(error);
@@ -94,10 +96,11 @@ class ArticlesRelated{
     saveArticle(articleData){
         //saves an article to the articles table
 
+ 
         db_promise.then(function(db) {
 
             //adds saved search to the database
-            db.execSQL("INSERT INTO articles (Title,Description,CrawlDate,Source, Author,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  ) VALUES (?,?,?,?,?,?,?,?,?,?,?)", [
+            db.execSQL("INSERT INTO articles (Title,Description,CrawlDate,Source, Author, Url ,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [
                 articleData.Title,
                 articleData.Description,
                 articleData.CrawlDate,
@@ -107,7 +110,8 @@ class ArticlesRelated{
                 articleData.UrlToImage,
                 articleData.tag,
                 articleData.souceImageUrl,
-                 articleData.newsType,
+                articleData.postType,
+                articleData.newsType,
                 articleData.latLng
             ]).then(id => {
                 console.log("index:",id)
@@ -122,7 +126,7 @@ class ArticlesRelated{
         return new Promise((resolve,reject)=>{
             //grabs all recent article 
             db_promise.then(function(db) {
-                db.all("SELECT  DISTINCT(title) id, Title,Description,CrawlDate,Source, Author,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles").then(rows=>{
+                db.all("SELECT  DISTINCT(title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles").then(rows=>{
  
                      resolve(rows);
                 },error=>{
@@ -133,8 +137,16 @@ class ArticlesRelated{
          
     }
 
-    getArticleBySource(source){
+    getArticlesBySource(source){
         //filter articles by source
+        db_promise.then(function(db) {
+        //     db.all("SELECT  DISTINCT(title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles WHERE").then(rows=>{
+ 
+        //         resolve(rows);
+        //    },error=>{
+        //        console.log(error);
+        //    })
+        })
     }
 
     searchArticle(query){
@@ -146,7 +158,15 @@ class ArticlesRelated{
     }
 
     getAllSources(){
-        //grabs all sources
+        return new Promise((resolve,reject)=>{
+                //grabs all sources
+                db_promise.then(function(db) {
+                     db.all("SELECT DISTINCT(Source) , souceImageUrl FROM articles  ").then(rows=>{
+                         resolve(rows);
+                    })
+                })
+        })
+    
     }    
 }
 

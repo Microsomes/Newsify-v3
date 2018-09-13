@@ -1,7 +1,9 @@
 <Page
     class="page"
     navigatingTo="onNavigatingTo"  
-    xmlns="http://schemas.nativescript.org/tns.xsd">
+    xmlns="http://schemas.nativescript.org/tns.xsd"
+    xmlns:PullRefresh="nativescript-pulltorefresh"
+    >
 
     <ActionBar  backgroundColor="#3232FF" class="action-bar">
         <!-- 
@@ -23,14 +25,16 @@
     </ActionBar>
 
     <StackLayout class="page-content">
+        <PullRefresh:PullToRefresh refresh="{{refreshList}}">
         	<ListView    class="list-group" items="{{ sources }}" itemTap="{{ onItemTap }}" style="height:1250px">
 				<ListView.itemTemplate>
 					<FlexboxLayout flexDirection="column" class="list-group-item">
- 						<Image height="200" src="{{ souceImageUrl }}" class="thumb img-circle" />
-                        <Label color="#686868" text="{{ cap }}" class="list-group-item-heading" verticalAlignment="center" style="width: 80%;" />
+ 						<Image  src="{{ souceImageUrl }}" />
+                        <Label textWrap="true" color="#686868" text="{{ cap }}" class="list-group-item-heading" verticalAlignment="center" style="width: 80%;" />
  
                     </FlexboxLayout>
 				</ListView.itemTemplate>
 		</ListView>
+        </PullRefresh:PullToRefresh>  
     </StackLayout>
 </Page>

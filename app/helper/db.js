@@ -117,7 +117,7 @@ class ArticlesRelated{
         return new Promise((resolve,reject)=>{
             //grabs all recent article 
             db_promise.then(function(db) {
-                db.all("SELECT *  FROM articles").then(rows=>{
+                db.all("SELECT DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng FROM articles ORDER BY id DESC").then(rows=>{
                     
                      resolve(rows);
                 },error=>{

@@ -117,6 +117,27 @@ class ArticlesRelated{
                         e.sourceCap= capitalizeFirstLetter(e.Source)
                     })
                      resolve(d)
+                     console.log("given");
+
+                     //loop through the data to save it
+                     d.forEach(e=>{
+                        mb.saveArticle({
+                            Title:e.Title,
+                            Description:e.Description,
+                            CrawlDate:e.CrawlDate,
+                            Source:e.Source,
+                            Author:e.Author,
+                            Url:e.Url,
+                            UrlToImage:e.UrlToImage,
+                            tag:e.tag,
+                            souceImageUrl:e.souceImageUrl,
+                            postType: e.postType,
+                            newsType: e.newsType,
+                            latLng :e.latLng
+                        })
+ 
+                    })
+
                 }, (e) => {
                 });
     

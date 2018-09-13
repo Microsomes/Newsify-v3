@@ -54,8 +54,12 @@ function HomeViewModel(page) {
 
             articleRelatedNet.grabRecentArticles().then(d=>{
                 //grabs all recent articles
-                viewModel.set("countries",d);
-                pullRefresh.refreshing =false;
+                viewModel.set("countries",[]);
+                setTimeout(()=>{
+                    viewModel.set("countries",d);
+                    pullRefresh.refreshing =false;
+                },100)
+               
             })
 
 

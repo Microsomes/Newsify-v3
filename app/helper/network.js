@@ -104,8 +104,7 @@ class ArticlesRelated{
             var isOnline= checkConnection()==="connection";
             //determines if the user is online
             console.log(isOnline);
-            isOnline=false;
-             if(isOnline){
+              if(isOnline){
                 //connect to the net to grab data
     
                 httpModule.getJSON("https://socialstation.info/newsv2/source/"+source).then((r) => {
@@ -380,8 +379,24 @@ class ArticlesRelated{
             //user is connected to the net search articles from the internet
             httpModule.getJSON(DEFINITIONS.GRAB_SEARCH+"/"+query).then((r) => {
                 var d= r["data"];
-    
+                
+
                 d.forEach(e=>{
+                    mb.saveArticle({
+                        Title:e.Title,
+                        Description:e.Description,
+                        CrawlDate:e.CrawlDate,
+                        Source:e.Source,
+                        Author:e.Author,
+                        Url:e.Url,
+                        UrlToImage:e.UrlToImage,
+                        tag:e.tag,
+                        souceImageUrl:e.souceImageUrl,
+                        postType: e.postType,
+                        newsType: e.newsType,
+                        latLng :e.latLng
+                    })
+
                     var fromNow= moment(e.CrawlDate).fromNow()
                     e.now=fromNow;
         

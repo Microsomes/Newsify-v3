@@ -76,7 +76,7 @@ function HomeViewModel(page) {
                 moduleName: "articlePage/article-page",
                 context:{link:viewModel.get("countries")[args.index].Url},
                 transition: {
-                    name: "fade"
+                    name: "slideTop"
                 }
             });
 

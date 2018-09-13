@@ -53,11 +53,11 @@ var mb= new MicrosomesDB.ArticlesRelated();
 function helper_grab_recent_from_local_database(resolve){
     //param is a function
     //helper method for articles related
-
-       //query the offline database instead
+        //query the offline database instead
        mb.getRecentArticles().then(rows=>{
 
- 
+
+        
         var toResolve=[]
 
          rows.forEach(row=>{
@@ -103,8 +103,9 @@ class ArticlesRelated{
         return new Promise((resolve,reject)=>{
             var isOnline= checkConnection()==="connection";
             //determines if the user is online
+            console.log(isOnline);
             isOnline=false;
-            if(isOnline){
+             if(isOnline){
                 //connect to the net to grab data
     
                 httpModule.getJSON("https://socialstation.info/newsv2/source/"+source).then((r) => {
@@ -116,15 +117,14 @@ class ArticlesRelated{
                         
                         e.sourceCap= capitalizeFirstLetter(e.Source)
                     })
-                    console.log("accesssed from network.js");
-                    resolve(d)
+                     resolve(d)
                 }, (e) => {
                 });
     
             }else{
+                console.log("getting articles by source","offline");
                 //connect to local database since the user is not connected
-                console.log("connecting to localdatabase");
-                //query the offline database instead
+                 //query the offline database instead
                     mb.getArticlesBySource(source).then(rows=>{
                         var toResolve=[]
                         rows.forEach(row=>{
@@ -203,8 +203,8 @@ class ArticlesRelated{
                 if(lastGrabbed!=null){
                     var now= moment()
                     var exp= moment(lastGrabbed)
-                    console.log("diff",now.diff(exp,'minutes'))
-                     if(now.diff(exp,'minutes')>100){
+
+                    if(now.diff(exp,'minutes')>100){
                         //expired continue
                     }else{
                         //data was freshly recieved within 100 minutes must be still up to date use local database instead
@@ -226,7 +226,7 @@ class ArticlesRelated{
             
                     dataArr.forEach(e=>{
 
-                        console.log(e);
+
                         mb.saveArticle({
                             Title:e.Title,
                             Description:e.Description,
@@ -334,16 +334,16 @@ class ArticlesRelated{
                     })
                     resolve(sources);
 
-                    console.log("network");
-                 }, (e) => {
+
+                }, (e) => {
                     reject(e);
                 });
             }else{
                 //grab the data from the local database instead
                 mb.getAllSources().then(rows=>{
 
-                    console.log("grab offline sources")
- 
+
+                    
                     var toResolve=[]
 
                      rows.forEach(row=>{
@@ -373,7 +373,12 @@ class ArticlesRelated{
     //search article
     searchArticle(query){
         return new Promise((resolve,reject)=>{
-             httpModule.getJSON(DEFINITIONS.GRAB_SEARCH+"/"+query).then((r) => {
+
+        var isOnline= checkConnection()==="connection";
+
+        if(isOnline){
+            //user is connected to the net search articles from the internet
+            httpModule.getJSON(DEFINITIONS.GRAB_SEARCH+"/"+query).then((r) => {
                 var d= r["data"];
     
                 d.forEach(e=>{
@@ -389,6 +394,64 @@ class ArticlesRelated{
             }, (e) => {
                reject(e);
             });
+        }else{
+            mb.searchArticle(query).then(rows=>{
+
+
+                var toResolve=[]
+
+                 rows.forEach(row=>{
+                     toResolve.push({
+                        id: row[0],
+                        Title: row[1],
+                        Description: row[2],
+                        CrawlDate: row[3],
+                        Source: row[4],
+                        Author: row[5],
+                        Url: row[6],
+                        UrlToImage:row[7],
+                        tag:row[8],
+                        souceImageUrl:row[9],
+                        postType:row[10],
+                        newsType:row[11],
+                        latLng:row[12],
+                        
+                    })
+                 })
+
+
+                 toResolve.unshift({
+                    id: 99999,
+                    Title: "Important: You are using the Offline Feature of this app, you may carry on using the App as normal however clicking on articles will not load an article. Enjoy reading highlights.",
+                    Description:"",
+                    CrawlDate: moment().format(),
+                    Source: "Newsify-Offline",
+                    Author: "Newsify Offline",
+                    Url: "",
+                    UrlToImage:"",
+                    tag:"",
+                    souceImageUrl:"",
+                    postType:"",
+                    newsType:"",
+                    latLng:"",
+                 })
+        
+                 toResolve.forEach(e=>{
+                    var fromNow= moment(e.CrawlDate).fromNow()
+                    e.now=fromNow;
+        
+                    e.sourceCap= capitalizeFirstLetter(e.Source)
+        
+                })
+
+                var toReturn={data:toResolve}
+
+                  resolve(toReturn);
+            })
+
+        }
+
+               
         })
       
     }

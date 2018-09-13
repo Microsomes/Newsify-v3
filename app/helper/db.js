@@ -11,8 +11,7 @@ var db_promise = new Sqlite("mainDBmV", function(err, db) {
         console.error("We failed to open database", err);
     } else {
         // This should ALWAYS be true, db object is open in the "Callback" if no errors occurred
-        console.log("Are we open yet (Inside Callback)? ", db.isOpen() ? "Yes" : "No"); // Yes
-    }
+     }
 });
 
 //TODO FIX THE articles table integrity
@@ -24,17 +23,13 @@ db_promise.then(function(db) {
     //creates all the tables needed
 
     db.execSQL("CREATE TABLE IF NOT EXISTS savedSearches (id INTEGER PRIMARY KEY AUTOINCREMENT, search TEXT)").then(id=>{
-        console.log(id);
-    },error=>{
-        console.log(error);
-    })
+     },error=>{
+     })
 
     
     db.execSQL("CREATE TABLE IF NOT EXISTS articles (id INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Description TEXT, CrawlDate TEXT, Source TEXT, Author TEXT, Url TEXT, UrlToImage TEXT, tag TEXT, souceImageUrl TEXT, postType TEXT, newsType TEXT, latLng TEXT )").then(id=>{
-        console.log(id);
-    },error=>{
-        console.log(error);
-    })
+     },error=>{
+     })
 
 });
 
@@ -59,10 +54,8 @@ class SearchRelated {
             db.execSQL("INSERT INTO savedSearches (search) VALUES (?)", [
                 query
             ]).then(id => {
-                console.log(id)
-            }, error => {
-                console.log("insert error", error);
-            })
+             }, error => {
+             })
 
         })
     }
@@ -114,10 +107,8 @@ class ArticlesRelated{
                 articleData.newsType,
                 articleData.latLng
             ]).then(id => {
-                console.log("index:",id)
-            }, error => {
-                console.log("insert error", error);
-            })
+             }, error => {
+             })
 
         })
     }
@@ -126,27 +117,24 @@ class ArticlesRelated{
         return new Promise((resolve,reject)=>{
             //grabs all recent article 
             db_promise.then(function(db) {
-                db.all("SELECT  DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles").then(rows=>{
- 
+                db.all("SELECT *  FROM articles").then(rows=>{
+                    
                      resolve(rows);
                 },error=>{
-                    console.log(error);
-                })
+                 })
             })
         })
          
     }
 
     getArticlesBySource(source){
-        console.log("source:...",source);
-        return new Promise((resolve,reject)=>{
+         return new Promise((resolve,reject)=>{
             //filter articles by source
             db_promise.then(function(db) {
-                db.all("SELECT  DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles  WHERE  Source=?",[source]).then(rows=>{
+                db.all("SELECT  DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles  WHERE  Source=? ORDER BY id DESC",[source]).then(rows=>{
                     resolve(rows);
             },error=>{
-                console.log(error);
-            })
+             })
             })
         })
        
@@ -154,6 +142,16 @@ class ArticlesRelated{
 
     searchArticle(query){
         //search articles from all sources
+        return new Promise((resolve,reject)=>{
+            //filter articles by source
+            db_promise.then(function(db) {
+                db.all("SELECT  DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles  WHERE  Title LIKE ? ORDER BY id DESC",["%"+query+"%"]).then(rows=>{
+                    resolve(rows);
+            },error=>{
+             })
+            })
+        })
+
     }
 
     searchArticlesBySource(query,source){

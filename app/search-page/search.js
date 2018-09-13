@@ -33,13 +33,13 @@ function onNavigatingTo(args) {
     const page = args.object;
     page.bindingContext = new SearchViewModel();
     svm=page.bindingContext;
-    console.log("page---");
 
+    
     var nc= page.navigationContext;
     if(nc.status==="param"){
         //load the search query from param
-        console.log("pre load search term")
 
+        
         var searchTerm= nc["st"].searchTerm;
 
         onSubmitAlone(searchTerm);
@@ -56,14 +56,14 @@ function onDrawerButtonTap(args) {
 
 var onClear=function(){
     //when user clears the search bar
-    console.log("cleared")
+
 }
 
 function onSubmitAlone(query){
     //stand alone version of onsubmit
 
-    console.log("onsubmit alone")
 
+    
     svm.set("searchResults",[]);
     
 

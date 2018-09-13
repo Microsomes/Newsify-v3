@@ -87,8 +87,9 @@ function BrowseViewModel(page) {
         startLoad:function(args){
             //first called on load to load all source articles
             
-             
+             console.log("starting load");
              articleRelatedNet.getRecentArticlesBySource(args).then(d=>{
+                 console.log(d);
                 viewModel.set("searchResults",d)
                 viewModel.set("currentSource",args);
             })

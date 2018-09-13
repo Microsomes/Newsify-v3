@@ -28,11 +28,13 @@ function BrowseViewModel() {
             var pullRefresh= args.object;
 
             articleRelatedNet.grabAllSouces().then(d=>{
+                console.log(d);
                 viewModel.set("sources",[])
                 //empty current sources
                 viewModel.set("sources",d);
-                pullRefresh.refreshing=false;
-            })
+             })
+             pullRefresh.refreshing=false;
+
 
         }
         ,

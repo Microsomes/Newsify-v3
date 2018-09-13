@@ -180,12 +180,54 @@ class Fav{
     saveFav(articleData){
         //saves an article to the favourite section
 
+        db_promise.then(function(db) {
+
+            //adds saved search to the database
+            db.execSQL("INSERT INTO articles_fav (Title,Description,CrawlDate,Source, Author, Url ,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [
+                articleData.Title,
+                articleData.Description,
+                articleData.CrawlDate,
+                articleData.Source,
+                articleData.Author,
+                articleData.Url,
+                articleData.UrlToImage,
+                articleData.tag,
+                articleData.souceImageUrl,
+                articleData.postType,
+                articleData.newsType,
+                articleData.latLng
+            ]).then(id => {
+                console.log(id);
+             }, error => {
+             })
+
+        })
+
     }
     getFav(article_id){
         //grab favourite 
+        return new Promise((resolve,reject)=>{
+            //filter articles by source
+            db_promise.then(function(db) {
+                db.all("SELECT  DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles_fav  WHERE  id=? ORDER BY id DESC",[article_id]).then(rows=>{
+                    resolve(rows);
+            },error=>{
+             })
+            })
+        })
     }
     getRecentFav(){
         //grabs all recent favourited articles
+        return new Promise((resolve,reject)=>{
+            //grabs all recent article 
+            db_promise.then(function(db) {
+                db.all("SELECT DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng FROM articles_fav ORDER BY id DESC").then(rows=>{
+                    
+                     resolve(rows);
+                },error=>{
+                 })
+            })
+        })
     }
 }
 

@@ -27,7 +27,14 @@ function onNavigatingTo(args) {
     var MicrosomesDB= require("../helper/db");
 
     var mb= new MicrosomesDB.ArticlesRelated();
+    // articleRelatedNet.grabRecentArticles().then(d=>{
+    //     console.log(d);
+    // })
 
+    // articleRelatedNet.getRecentArticlesBySource("buzzfeed").then(d=>{
+    //     console.log("0000");
+    //     console.log(d);
+    // })
   
 
     // mb.saveArticle({           

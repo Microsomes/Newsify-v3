@@ -213,6 +213,8 @@ class ArticlesRelated{
 
             var isOnline= checkConnection()==="connection";
             //determines if the user is online
+
+            console.log(isOnline);
             
               
             if(isOnline){
@@ -223,12 +225,13 @@ class ArticlesRelated{
                 if(lastGrabbed!=null){
                     var now= moment()
                     var exp= moment(lastGrabbed)
-
+                    console.log(now.diff(exp,'minutes'));
                     if(now.diff(exp,'minutes')>100){
                         //expired continue
+                        console.log("expired");
                     }else{
                         //data was freshly recieved within 100 minutes must be still up to date use local database instead
-
+                        console.log("grab from offline database");
                            //query the offline database instead
                         helper_grab_recent_from_local_database(resolve);
                         //passing the resolve function for the helper to

@@ -29,8 +29,7 @@
         	<ListView    class="list-group" items="{{ sources }}" itemTap="{{ onItemTap }}" style="height:1250px">
 				<ListView.itemTemplate>
 					<FlexboxLayout flexDirection="column" class="list-group-item">
- 						<Image  src="{{ souceImageUrl }}" />
-                        <Label textWrap="true" color="#686868" text="{{ cap }}" class="list-group-item-heading" verticalAlignment="center" style="width: 80%;" />
+                         <Label textWrap="true" color="#686868" text="{{ cap }}" class="list-group-item-heading" verticalAlignment="center" style="width: 80%;" />
  
                     </FlexboxLayout>
 				</ListView.itemTemplate>

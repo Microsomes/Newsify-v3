@@ -38,6 +38,7 @@
                         <Label class="authorText" width="50%" text="{{Author}}"></Label>
                         <Label class="authorText" width="50%" text="{{now}}"></Label>
                         </FlexboxLayout>
+                                      <Label class="authorText" width="50%" text="{{sourceCap}}"></Label>
 
 
                     </FlexboxLayout>

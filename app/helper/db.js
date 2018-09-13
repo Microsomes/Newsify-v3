@@ -126,7 +126,7 @@ class ArticlesRelated{
         return new Promise((resolve,reject)=>{
             //grabs all recent article 
             db_promise.then(function(db) {
-                db.all("SELECT  DISTINCT(title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles").then(rows=>{
+                db.all("SELECT  DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles").then(rows=>{
  
                      resolve(rows);
                 },error=>{
@@ -138,15 +138,18 @@ class ArticlesRelated{
     }
 
     getArticlesBySource(source){
-        //filter articles by source
-        db_promise.then(function(db) {
-        //     db.all("SELECT  DISTINCT(title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles WHERE").then(rows=>{
- 
-        //         resolve(rows);
-        //    },error=>{
-        //        console.log(error);
-        //    })
+        console.log("source:...",source);
+        return new Promise((resolve,reject)=>{
+            //filter articles by source
+            db_promise.then(function(db) {
+                db.all("SELECT  DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles  WHERE  Source=?",[source]).then(rows=>{
+                    resolve(rows);
+            },error=>{
+                console.log(error);
+            })
+            })
         })
+       
     }
 
     searchArticle(query){
@@ -161,7 +164,7 @@ class ArticlesRelated{
         return new Promise((resolve,reject)=>{
                 //grabs all sources
                 db_promise.then(function(db) {
-                     db.all("SELECT DISTINCT(Source) , souceImageUrl FROM articles  ").then(rows=>{
+                     db.all("SELECT DISTINCT(Source), souceImageUrl FROM articles ").then(rows=>{
                          resolve(rows);
                     })
                 })

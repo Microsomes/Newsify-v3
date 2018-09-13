@@ -12,6 +12,10 @@ const moment= require("moment");
 
 const httpModule = require("http");
 
+var NETWORKs= require("../helper/network");
+var articleRelatedNet= new NETWORKs.ArticlesRelated()
+//needed to request data from the api
+ 
 
 var sources= []
 //all sources grabbed from the server will be stored here
@@ -34,29 +38,14 @@ function BrowseViewModel(page) {
 
             var pullRefresh= args.object;
 
-            //refresh articles here
-            httpModule.getJSON("https://socialstation.info/newsv2/source/"+viewModel.get("currentSource")).then((r) => {
-                var d= r["data"];
-
-                d.forEach(e=>{
-                    e.cap= e.Source.toUpperCase();
-                    e.now= moment(e.CrawlDate).fromNow()
-                    
-                    e.sourceCap= capitalizeFirstLetter(e.Source)
-                })
-
-                viewModel.set("searchResults",d);
-
-                
-                var lw= page.getViewById("browse_list");
-                lw.refresh();
-                pullRefresh.refreshing =false;
-
-                
-                
-
-            }, (e) => {
-            });
+             articleRelatedNet.getRecentArticlesBySource(viewModel.get("currentSource")).then(d=>{
+                viewModel.set("searchResults",d)
+            var lw= page.getViewById("browse_list");
+            lw.refresh();
+            pullRefresh.refreshing =false;
+            })
+      
+             
 
 
 
@@ -98,22 +87,11 @@ function BrowseViewModel(page) {
         startLoad:function(args){
             //first called on load to load all source articles
             
-            console.log("processing the start");
-            
-            console.log(args);
-            httpModule.getJSON("https://socialstation.info/newsv2/source/"+args).then((r) => {
-                var d= r["data"];
-
-                d.forEach(e=>{
-                    e.cap= e.Source.toUpperCase();
-                    e.now= moment(e.CrawlDate).fromNow()
-                    
-                    e.sourceCap= capitalizeFirstLetter(e.Source)
-                })
-
-                viewModel.set("searchResults",d);
-            }, (e) => {
-            });
+             
+             articleRelatedNet.getRecentArticlesBySource(args).then(d=>{
+                viewModel.set("searchResults",d)
+                viewModel.set("currentSource",args);
+            })
         } 
     });
 

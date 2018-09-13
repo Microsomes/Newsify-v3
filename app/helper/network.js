@@ -79,6 +79,9 @@ function helper_grab_recent_from_local_database(resolve){
             })
          })
 
+        
+         
+
 
 
          toResolve.forEach(e=>{
@@ -93,6 +96,86 @@ function helper_grab_recent_from_local_database(resolve){
 }
 
 class ArticlesRelated{
+
+
+    //grabs recent articles by source
+    getRecentArticlesBySource(source){
+        return new Promise((resolve,reject)=>{
+            var isOnline= checkConnection()==="connection";
+            //determines if the user is online
+            isOnline=false;
+            if(isOnline){
+                //connect to the net to grab data
+    
+                httpModule.getJSON("https://socialstation.info/newsv2/source/"+source).then((r) => {
+                    var d= r["data"];
+    
+                    d.forEach(e=>{
+                        e.cap= e.Source.toUpperCase();
+                        e.now= moment(e.CrawlDate).fromNow()
+                        
+                        e.sourceCap= capitalizeFirstLetter(e.Source)
+                    })
+                    console.log("accesssed from network.js");
+                    resolve(d)
+                }, (e) => {
+                });
+    
+            }else{
+                //connect to local database since the user is not connected
+                console.log("connecting to localdatabase");
+                //query the offline database instead
+                    mb.getArticlesBySource(source).then(rows=>{
+                        var toResolve=[]
+                        rows.forEach(row=>{
+                            toResolve.push({
+                                id: row[0],
+                                Title: row[1],
+                                Description: row[2],
+                                CrawlDate: row[3],
+                                Source: row[4],
+                                Author: row[5],
+                                Url: row[6],
+                                UrlToImage:row[7],
+                                tag:row[8],
+                                souceImageUrl:row[9],
+                                postType:row[10],
+                                newsType:row[11],
+                                latLng:row[12],
+                                
+                            })
+                        })
+ 
+         toResolve.forEach(e=>{
+            var fromNow= moment(e.CrawlDate).fromNow()
+            e.now=fromNow;
+
+            e.sourceCap= capitalizeFirstLetter(e.Source)
+
+        })
+        toResolve.unshift({
+            id: 99999,
+            Title: "Important: You are using the Offline Feature of this app, you may carry on using the App as normal however clicking on articles will not load an article. Enjoy reading highlights.",
+            Description:"",
+            CrawlDate: moment().format(),
+            Source: "Newsify-Offline",
+            Author: "Newsify Offline",
+            Url: "",
+            UrlToImage:"",
+            tag:"",
+            souceImageUrl:"",
+            postType:"",
+            newsType:"",
+            latLng:"",
+         })
+          resolve(toResolve);
+
+        })
+
+    }
+        })
+        
+    }//end of grabarticlesbysource method
 
     //grabs all recent articles
     grabRecentArticles(){
@@ -203,7 +286,7 @@ class ArticlesRelated{
  
                      toResolve.unshift({
                         id: 99999,
-                        Title: "Important: You are using the Offline Feature of this app, you may carry on using the App as normal however clicking on articles will not load an article. Enjoy reading highlights of the news instead.",
+                        Title: "Important: You are using the Offline Feature of this app, you may carry on using the App as normal however clicking on articles will not load an article. Enjoy reading highlights.",
                         Description:"",
                         CrawlDate: moment().format(),
                         Source: "Newsify-Offline",

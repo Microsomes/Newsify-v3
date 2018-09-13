@@ -24,9 +24,11 @@ function onNavigatingTo(args) {
     //load recent news
 
 
-    var MicrosomesDB= require("../helper/db");
+    // var MicrosomesDB= require("../helper/db");
 
-    var mb= new MicrosomesDB.ArticlesRelated();
+    // var mb= new MicrosomesDB.ArticlesRelated();
+
+     
 
     // mb.saveArticle({           
     //      "Title": "Trump Adviser Threatens Syria With 'Much Stronger' Military Assault If It Uses Chemical Weapons",
@@ -43,8 +45,7 @@ function onNavigatingTo(args) {
     //     "latLng": null
     // })
 
-    mb.getAllSources();
-    
+     
  
     page.bindingContext.set("countries",[]);
 

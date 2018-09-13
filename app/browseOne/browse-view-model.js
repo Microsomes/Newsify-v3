@@ -59,7 +59,7 @@ function BrowseViewModel(page) {
                 moduleName: "articlePage/article-page",
                 context:{link:sr[args.index].Url},
                 transition: {
-                    name: "fade"
+                    name: "slideTop"
                 }
             });
 

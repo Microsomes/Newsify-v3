@@ -1,0 +1,73 @@
+/*
+Helper module to help with database related activities
+*/
+var Sqlite = require("nativescript-sqlite");
+
+
+
+//opens the database connection within the constructor
+var db_promise = new Sqlite("mainDB", function(err, db) {
+    if (err) {
+        console.error("We failed to open database", err);
+    } else {
+        // This should ALWAYS be true, db object is open in the "Callback" if no errors occurred
+        console.log("Are we open yet (Inside Callback)? ", db.isOpen() ? "Yes" : "No"); // Yes
+    }
+});
+
+
+
+
+//this class is all search related
+class SearchRelated {
+
+
+
+    constructor() {
+
+    }
+
+
+    addSearchHistory(query) {
+        //add to search history
+
+        db_promise.then(function(db) {
+
+            //adds saved search to the database
+            db.execSQL("INSERT INTO savedSearches (search) VALUES (?)", [
+                query
+            ]).then(id => {
+                console.log(id)
+            }, error => {
+                console.log("insert error", error);
+            })
+
+        })
+    }
+
+    getSearchHistory() {
+        //returns the whole recent search history
+        return new Promise((resolve, reject) => {
+            db_promise.then(function(db) {
+                db.all("SELECT DISTINCT(search)  FROM savedSearches  ").then(rows => {
+                    resolve(rows);
+                })
+            })
+        })
+    }
+
+
+    addSavedSearch() {
+        //inserts a saved search
+    }
+
+    getSavedSearches() {
+        //returns the whole saved searches
+    }
+
+}
+
+
+module.exports = {
+    SearchRelated
+}

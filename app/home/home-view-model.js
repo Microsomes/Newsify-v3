@@ -8,13 +8,16 @@ const frameModule = require("ui/frame");
 
 var DEFINITIONS= require("../definitions/definitions")
 
+var NETWORKs= require("../helper/network");
+var articleRelatedNet= new NETWORKs.ArticlesRelated()
+//needed to request data from the api
 
+ 
 const SelectedPageService = require("../shared/selected-page-service");
 
 const recent_api_grabber_url_link= DEFINITIONS.GRAB_RECENT;
 //api link to grab recent news posts
-onLoadNow();
-
+ 
 
 
 function capitalizeFirstLetter(string) {
@@ -22,42 +25,6 @@ function capitalizeFirstLetter(string) {
 }
 
 
-var countries= [];
-
- function onLoadNow(){
-    /* 
-    code here will be auto called on start
-    */
- 
-
-    httpModule.getJSON(recent_api_grabber_url_link).then((r) => {
-        var dataArr= r["data"];
-
-        dataArr.forEach(e=>{
-            var fromNow= moment(e.CrawlDate).fromNow()
-            e.now=fromNow;
-
-            e.sourceCap= capitalizeFirstLetter(e.Source)
-
-        })
-
-        console.log(dataArr);
-
-        countries=dataArr;
-        
-
-        
-    }, (e) => {
-    });
-
-
-
-    console.log("recent news")
-}
-
-  countries= [
-    
-  ]
 
   var isBasic=true;
 
@@ -85,31 +52,11 @@ function HomeViewModel(page) {
 
             var pullRefresh= args.object;
 
-            httpModule.getJSON(recent_api_grabber_url_link).then((r) => {
-                var dataArr= r["data"];
-        
-                dataArr.forEach(e=>{
-                    var fromNow= moment(e.CrawlDate).fromNow()
-                    e.now=fromNow;
-                    e.sourceCap= capitalizeFirstLetter(e.Source)
-
-                })
-
-                viewModel.set("countries",dataArr);
-        
-                var basic_article_listview= page.getViewById("basic_article_listview");
-                basic_article_listview.refresh();
-
-                var advanced_article_listview= page.getViewById("advanced_article_listview");
-                advanced_article_listview.refresh();
-                 
-                
+            articleRelatedNet.grabRecentArticles().then(d=>{
+                //grabs all recent articles
+                viewModel.set("countries",d);
                 pullRefresh.refreshing =false;
-        
-                
-            }, (e) => {
-
-            });
+            })
 
 
         },
@@ -118,17 +65,12 @@ function HomeViewModel(page) {
         console.log(args);
         },
 
-        countries:countries,
+        countries:[],
+
           onItemTap: function (args) {
-            console.log('Item with index: ' + args.index + ' tapped');
-
-            console.log(countries[args.index]);
-
-            console.log("opening articles page");
-
             frameModule.topmost().navigate({
                 moduleName: "articlePage/article-page",
-                context:{link:countries[args.index].Url},
+                context:{link:viewModel.get("countries")[args.index].Url},
                 transition: {
                     name: "fade"
                 }

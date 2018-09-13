@@ -31,7 +31,23 @@
         <StackLayout>
              <ScrollView>
                 <StackLayout height="100%">
-                    <Label color="black" text="no past searches" textWrap="true" class="m-15" />
+                       	<ListView id="basic_article_listview"    class="list-group" items="{{ pastSearches }}" itemTap="{{ openSearchWithContext }}" style="height:1250px">
+				<ListView.itemTemplate>
+                <FlexboxLayout flexDirection="column">
+					<FlexboxLayout flexDirection="row" class="list-group-item">
+ 						<FlexboxLayout textAlign="center" alignItems="center" justifyContent="center" backgroundColor="#A9A9A9"  class="thumb img-circle" >
+                         <Label   text="{{fLetter}}"/>
+                         </FlexboxLayout>
+                        <FlexboxLayout  alignItems="center"    style="width: 80%"  >
+ 						<Label text="{{ searchTerm }}" class="list-group-item-heading" verticalAlignment="center"   />
+                         </FlexboxLayout>
+
+                     </FlexboxLayout>
+              
+
+                </FlexboxLayout>
+				</ListView.itemTemplate>
+ 		</ListView>
                 </StackLayout>
             </ScrollView>
         </StackLayout>

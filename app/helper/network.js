@@ -35,7 +35,7 @@ switch (connectionType) {
 
 
 function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.toUpperCase();
 }
 
 const moment= require("moment");
@@ -55,7 +55,8 @@ function helper_grab_recent_from_local_database(resolve){
     //helper method for articles related
         //query the offline database instead
        mb.getRecentArticles().then(rows=>{
- 
+        
+        
         
         var toResolve=[]
 
@@ -401,20 +402,20 @@ class ArticlesRelated{
                 
 
                 d.forEach(e=>{
-                    mb.saveArticle({
-                        Title:e.Title,
-                        Description:e.Description,
-                        CrawlDate:e.CrawlDate,
-                        Source:e.Source,
-                        Author:e.Author,
-                        Url:e.Url,
-                        UrlToImage:e.UrlToImage,
-                        tag:e.tag,
-                        souceImageUrl:e.souceImageUrl,
-                        postType: e.postType,
-                        newsType: e.newsType,
-                        latLng :e.latLng
-                    })
+                    // mb.saveArticle({
+                    //     Title:e.Title,
+                    //     Description:e.Description,
+                    //     CrawlDate:e.CrawlDate,
+                    //     Source:e.Source,
+                    //     Author:e.Author,
+                    //     Url:e.Url,
+                    //     UrlToImage:e.UrlToImage,
+                    //     tag:e.tag,
+                    //     souceImageUrl:e.souceImageUrl,
+                    //     postType: e.postType,
+                    //     newsType: e.newsType,
+                    //     latLng :e.latLng
+                    // })
 
                     var fromNow= moment(e.CrawlDate).fromNow()
                     e.now=fromNow;

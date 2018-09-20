@@ -3,10 +3,13 @@ const observableModule = require("data/observable");
 const SelectedPageService = require("../shared/selected-page-service");
 var nstoasts = require("nativescript-toasts");
 
+var MicrosomesDB= require("../helper/db");
+var favDB= new MicrosomesDB.Fav();
+
 function BrowseViewModel(page) {
     SelectedPageService.getInstance().updateSelectedPage("Browse");
 
-    var grabLink= page.link;
+    var grabLink= page.link.Url;
 
     const viewModel = observableModule.fromObject({
         /* Add your view model properties here */
@@ -31,6 +34,27 @@ function BrowseViewModel(page) {
                 position : nstoasts.POSITION.BOTTOM //optional
             }
             nstoasts.show(options);
+            console.log(page.link);
+
+            var a=page.link;
+
+            console.log(a);
+
+            favDB.saveFav({
+                Title:a.Title,
+                Description:a.Description,
+                CrawlDate:a.CrawlDate,
+                Source:a.Source,
+                Author:a.Author,
+                Url:a.Url,
+                UrlToImage:a.UrlToImage,
+                tag:a.tag,
+                souceImageUrl:a.souceImageUrl,
+                postType:a.postType,
+                newsType:a.newsType,
+                latLng:a.latLng,
+                originalID:a.originalID
+            })
         }
     });
 

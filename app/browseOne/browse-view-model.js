@@ -57,7 +57,7 @@ function BrowseViewModel(page) {
 
             frameModule.topmost().navigate({
                 moduleName: "articlePage/article-page",
-                context:{link:sr[args.index].Url},
+                context:{link:sr[args.index]},
                 transition: {
                     name: "slideTop"
                 }

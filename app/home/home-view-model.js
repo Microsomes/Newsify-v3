@@ -91,7 +91,7 @@ function HomeViewModel(page) {
           onItemTap: function (args) {
             frameModule.topmost().navigate({
                 moduleName: "articlePage/article-page",
-                context:{link:viewModel.get("countries")[args.index].Url},
+                context:{link:viewModel.get("countries")[args.index]},
                 transition: {
                     name: "slideTop"
                 }

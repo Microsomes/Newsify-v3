@@ -6,7 +6,7 @@ var Sqlite = require("nativescript-sqlite");
 
 
 //opens the database connection within the constructor
-var db_promise = new Sqlite("mainDBmVA", function(err, db) {
+var db_promise = new Sqlite("mainDBmVAa", function(err, db) {
     if (err) {
         console.error("We failed to open database", err);
     } else {
@@ -30,7 +30,7 @@ db_promise.then(function(db) {
     db.execSQL("CREATE TABLE IF NOT EXISTS articles (id INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Description TEXT, CrawlDate TEXT, Source TEXT, Author TEXT, Url TEXT, UrlToImage TEXT, tag TEXT, souceImageUrl TEXT, postType TEXT, newsType TEXT, latLng TEXT, originalID TEXT )").then(id=>{
      },error=>{
      })
-     db.execSQL("CREATE TABLE IF NOT EXISTS articles_fav (id INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Description TEXT, CrawlDate TEXT, Source TEXT, Author TEXT, Url TEXT, UrlToImage TEXT, tag TEXT, souceImageUrl TEXT, postType TEXT, newsType TEXT, latLng TEXT )").then(id=>{
+     db.execSQL("CREATE TABLE IF NOT EXISTS articles_fav (id INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Description TEXT, CrawlDate TEXT, Source TEXT, Author TEXT, Url TEXT, UrlToImage TEXT, tag TEXT, souceImageUrl TEXT, postType TEXT, newsType TEXT, latLng TEXT, originalID TEXT)").then(id=>{
     },error=>{
     })
 
@@ -191,11 +191,12 @@ class Fav{
 
     saveFav(articleData){
         //saves an article to the favourite section
+        console.log("saving favourite articles");
 
         db_promise.then(function(db) {
 
             //adds saved search to the database
-            db.execSQL("INSERT INTO articles_fav (Title,Description,CrawlDate,Source, Author, Url ,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [
+            db.execSQL("INSERT INTO articles_fav (Title,Description,CrawlDate,Source, Author, Url ,UrlToImage, tag, souceImageUrl, postType, newsType, latLng,originalID  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", [
                 articleData.Title,
                 articleData.Description,
                 articleData.CrawlDate,
@@ -207,10 +208,12 @@ class Fav{
                 articleData.souceImageUrl,
                 articleData.postType,
                 articleData.newsType,
-                articleData.latLng
+                articleData.latLng,
+                articleData.originalID
             ]).then(id => {
-                console.log(id);
+                console.log("insert id",id);
              }, error => {
+                 console.log(error);
              })
 
         })
@@ -221,22 +224,27 @@ class Fav{
         return new Promise((resolve,reject)=>{
             //filter articles by source
             db_promise.then(function(db) {
-                db.all("SELECT  DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles_fav  WHERE  id=? ORDER BY id DESC",[article_id]).then(rows=>{
+                db.all("SELECT  DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng, originalID  FROM articles_fav  WHERE  id=? ORDER BY id DESC",[article_id]).then(rows=>{
                     resolve(rows);
             },error=>{
+                console.log(error);
              })
             })
         })
     }
     getRecentFav(){
+        console.log("recent fav..123");
         //grabs all recent favourited articles
         return new Promise((resolve,reject)=>{
             //grabs all recent article 
             db_promise.then(function(db) {
-                db.all("SELECT DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng FROM articles_fav ORDER BY id DESC").then(rows=>{
+                db.all("SELECT DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng, originalID FROM articles_fav ORDER BY id DESC").then(rows=>{
                     
                      resolve(rows);
+                     console.log(rows);
                 },error=>{
+                    reject(error);
+                    console.log(error);
                  })
             })
         })
@@ -248,5 +256,6 @@ class Fav{
 
 module.exports = {
     SearchRelated,
-    ArticlesRelated
+    ArticlesRelated,
+    Fav
 }

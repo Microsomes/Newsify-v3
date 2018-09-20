@@ -22,8 +22,28 @@
         <Label class="action-bar-title" text="Favorites"></Label>
     </ActionBar>
 
-    <GridLayout class="page-content">
-        <Label class="page-icon fa" text="&#xf005;"></Label>
-        <Label class="page-placeholder" text="<!-- Page content goes here -->"></Label>
-    </GridLayout>
+    <StackLayout class="page-content">
+       
+        <ListView  id="advanced_article_listview"  class="list-group" items="{{ articleData }}" itemTap="{{ onItemTap }}" style="height:1250px">
+				<ListView.itemTemplate>
+					<FlexboxLayout flexDirection="column" class="list-group-item">
+						<Image  src="{{ UrlToImage }}" />
+						<Label textWrap="true" class="article_title" text="{{Title}}"   verticalAlignment="center" style="width: 100%" />
+                        
+                        <FlexboxLayout flexDirection="row">
+                        <Label class="authorText" width="50%" text="{{Author}}"></Label>
+                        <Label class="authorText" width="50%" text="{{now}}"></Label>
+                        
+                        </FlexboxLayout>
+
+                                      <Label class="authorText" width="50%" text="{{sourceCap}}"></Label>
+
+                         
+
+
+                    </FlexboxLayout>
+				</ListView.itemTemplate>
+		</ListView>
+
+    </StackLayout>
 </Page>

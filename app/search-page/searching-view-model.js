@@ -43,7 +43,7 @@ function SearchViewModel() {
 
             frameModule.topmost().navigate({
                 moduleName: "articlePage/article-page",
-                context:{link:sr[args.index].Url},
+                context:{link:sr[args.index]},
                 transition: {
                     name: "slideTop"
                 }

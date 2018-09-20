@@ -31,6 +31,7 @@ function onNavigatingTo(args) {
 
  
     var mb= new MicrosomesDB.ArticlesRelated();
+ 
     
     // articleRelatedNet.grabRecentArticles().then(d=>{
     //     console.log(d);
@@ -72,25 +73,30 @@ function onNavigatingTo(args) {
      
  
     page.bindingContext.set("countries",[]);
-    var w= new Worker("./../helper/worker.js");
+    // var w= new Worker("./../helper/worker.js");
 
-    w.postMessage("recent");
-    //firing an event to the worker to grab recent posts in a background thread
+    // w.postMessage("recent");
+    // //firing an event to the worker to grab recent posts in a background thread
 
-    w.onmessage=(msg)=>{
-        console.log("grabbing from worker")
-         page.bindingContext.set("countries",msg.data);
-       // pullRefresh.refreshing =false;
-       setTimeout(()=>{
+    // w.onmessage=(msg)=>{
+    //     console.log("grabbing from worker")
+    //      page.bindingContext.set("countries",msg.data);
+    //    // pullRefresh.refreshing =false;
+    //    setTimeout(()=>{
+    //     page.bindingContext.set("isLoading",false);
+
+    //    },1000)
+    //   }
+ 
+    articleRelatedNet.grabRecentArticles().then(d=>{
+        //grabs all recent articles
+        page.bindingContext.set("countries",d);
+           setTimeout(()=>{
         page.bindingContext.set("isLoading",false);
 
        },1000)
-      }
- 
-    // articleRelatedNet.grabRecentArticles().then(d=>{
-    //     //grabs all recent articles
-        
-    // })
+
+    })
 
 
 

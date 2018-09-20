@@ -23,10 +23,15 @@ function onNavigatingTo(args) {
 
     //load recent news
 
+ 
+    
+
 
     var MicrosomesDB= require("../helper/db");
 
+ 
     var mb= new MicrosomesDB.ArticlesRelated();
+    
     // articleRelatedNet.grabRecentArticles().then(d=>{
     //     console.log(d);
     // })
@@ -52,16 +57,40 @@ function onNavigatingTo(args) {
     //     "latLng": null
     // })
 
+
+    //grab the loader
+    var al= page.getViewById("homeLoader");
+
+    const activityLoaderBindingOptions={
+        sourceProperty:"isLoading",
+        targetProperty:"visibility",
+        twoWay:true,
+        expression:"isLoading ? 'visible' : 'collapse' "
+    }
+
+    al.bind(activityLoaderBindingOptions,page.bindingContext);
      
  
     page.bindingContext.set("countries",[]);
+    var w= new Worker("./../helper/worker.js");
 
+    w.postMessage("recent");
+    //firing an event to the worker to grab recent posts in a background thread
+
+    w.onmessage=(msg)=>{
+        console.log("grabbing from worker")
+         page.bindingContext.set("countries",msg.data);
+       // pullRefresh.refreshing =false;
+       setTimeout(()=>{
+        page.bindingContext.set("isLoading",false);
+
+       },1000)
+      }
  
-    articleRelatedNet.grabRecentArticles().then(d=>{
-        //grabs all recent articles
-        page.bindingContext.set("countries",d);
-        pullRefresh.refreshing =false;
-    })
+    // articleRelatedNet.grabRecentArticles().then(d=>{
+    //     //grabs all recent articles
+        
+    // })
 
 
 

@@ -14,8 +14,7 @@ if(isDevelopment){
     DOMAIN="https://socialstation.info/newsv2/"
 }
 
-
-const GRAB_RECENT=DOMAIN+"recent";
+ const GRAB_RECENT=DOMAIN+"betterdelivery";
 //exposes the recent api link 
 
 const GRAB_SOURCES= DOMAIN+"sources"

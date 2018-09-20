@@ -33,7 +33,8 @@
     </ActionBar>
 
 <StackLayout>
-    
+    <ActivityIndicator id="homeLoader"  busy="{{ isLoading }}" />
+
 
  
     <StackLayout id="basic_artilce_viewing">

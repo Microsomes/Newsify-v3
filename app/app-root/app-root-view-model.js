@@ -7,10 +7,14 @@ const httpModule = require("http");
 
 const DEFINITIONS= require("../definitions/definitions");
 
+var MicrosomesDB= require("./../helper/db");
+var mb= new MicrosomesDB.ArticlesRelated();
+
 function AppRootViewModel() {
     const viewModel = observableModule.fromObject({
         selectedPage: "",
-        totalArticles:1000
+        totalArticles:1000,
+        totalArticlesLocal:0
     });
 
     SelectedPageService.getInstance().selectedPage$
@@ -24,6 +28,10 @@ function AppRootViewModel() {
         
     }, (e) => {
     });
+
+    mb.getTotalLocal().then(d=>{
+        viewModel.set("totalArticlesLocal","Articles locally cached: "+d[0]);
+    })
 
 
     return viewModel;

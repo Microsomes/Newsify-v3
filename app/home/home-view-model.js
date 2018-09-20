@@ -33,6 +33,7 @@ function HomeViewModel(page) {
 
     const viewModel = observableModule.fromObject({
         /* Add your view model properties here */
+        isLoading:true,
         
         toggleView:function(){
             console.log("toggle view");
@@ -49,18 +50,34 @@ function HomeViewModel(page) {
         refreshList:function(args){
             viewModel.set("countries",[])
             //reset countries (articles array) to commence a full reload
+            page.bindingContext.set("isLoading",true);
 
             var pullRefresh= args.object;
 
-            articleRelatedNet.grabRecentArticles().then(d=>{
-                //grabs all recent articles
-                viewModel.set("countries",[]);
+            var w= new Worker("./../helper/worker.js");
+
+            w.postMessage("recent");
+            //firing an event to the worker to grab recent posts in a background thread
+        
+            w.onmessage=(msg)=>{
+                console.log("grabbing from worker")
+                 page.bindingContext.set("countries",msg.data);
+                pullRefresh.refreshing =false;
                 setTimeout(()=>{
-                    viewModel.set("countries",d);
-                    pullRefresh.refreshing =false;
-                },100)
+                    page.bindingContext.set("isLoading",false);
+
+                },1000)
+              }
+
+            // articleRelatedNet.grabRecentArticles().then(d=>{
+            //     //grabs all recent articles
+            //     viewModel.set("countries",[]);
+            //     setTimeout(()=>{
+            //         viewModel.set("countries",d);
+            //         pullRefresh.refreshing =false;
+            //     },100)
                
-            })
+            // })
 
 
         },

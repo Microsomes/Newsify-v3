@@ -55,8 +55,7 @@ function helper_grab_recent_from_local_database(resolve){
     //helper method for articles related
         //query the offline database instead
        mb.getRecentArticles().then(rows=>{
-
-
+ 
         
         var toResolve=[]
 
@@ -75,13 +74,13 @@ function helper_grab_recent_from_local_database(resolve){
                 postType:row[10],
                 newsType:row[11],
                 latLng:row[12],
+                originalID:row[13],
                 
             })
          })
 
         
-         
-
+ 
 
 
          toResolve.forEach(e=>{
@@ -97,6 +96,11 @@ function helper_grab_recent_from_local_database(resolve){
 
 class ArticlesRelated{
 
+
+    getTotalArticlesLocally(){
+        //grabs the total number of articles locally cached
+        
+    }
 
     //grabs recent articles by source
     getRecentArticlesBySource(source){
@@ -120,23 +124,7 @@ class ArticlesRelated{
                      console.log("given");
 
                      //loop through the data to save it
-                     d.forEach(e=>{
-                        mb.saveArticle({
-                            Title:e.Title,
-                            Description:e.Description,
-                            CrawlDate:e.CrawlDate,
-                            Source:e.Source,
-                            Author:e.Author,
-                            Url:e.Url,
-                            UrlToImage:e.UrlToImage,
-                            tag:e.tag,
-                            souceImageUrl:e.souceImageUrl,
-                            postType: e.postType,
-                            newsType: e.newsType,
-                            latLng :e.latLng
-                        })
- 
-                    })
+                    
 
                 }, (e) => {
                 });
@@ -162,6 +150,7 @@ class ArticlesRelated{
                                 postType:row[10],
                                 newsType:row[11],
                                 latLng:row[12],
+                                originalID:row[13]
                                 
                             })
                         })
@@ -214,7 +203,7 @@ class ArticlesRelated{
             var isOnline= checkConnection()==="connection";
             //determines if the user is online
 
-            console.log(isOnline);
+            console.log("isOnline",isOnline);
             
               
             if(isOnline){
@@ -231,7 +220,7 @@ class ArticlesRelated{
                         console.log("expired");
                     }else{
                         //data was freshly recieved within 100 minutes must be still up to date use local database instead
-                        console.log("grab from offline database");
+                         console.log("grab from offline database");
                            //query the offline database instead
                         helper_grab_recent_from_local_database(resolve);
                         //passing the resolve function for the helper to
@@ -262,7 +251,8 @@ class ArticlesRelated{
                             souceImageUrl:e.souceImageUrl,
                             postType: e.postType,
                             newsType: e.newsType,
-                            latLng :e.latLng
+                            latLng :e.latLng,
+                            originalID:e.id
                         })
 
 
@@ -278,7 +268,11 @@ class ArticlesRelated{
                 resolve(dataArr);
 
                 }, (e) => {
-                    reject(e);
+                    //error grabbing new news fallback to the local database
+                    console.log("error grabbing live fall back fall back")
+                    helper_grab_recent_from_local_database(resolve);
+
+                    
                 });
             }else{
                  //query the offline database instead
@@ -302,6 +296,7 @@ class ArticlesRelated{
                             postType:row[10],
                             newsType:row[11],
                             latLng:row[12],
+                            originalID:row[13],
                             
                         })
                      })
@@ -454,6 +449,8 @@ class ArticlesRelated{
                         postType:row[10],
                         newsType:row[11],
                         latLng:row[12],
+                        originalID:row[13],
+
                         
                     })
                  })

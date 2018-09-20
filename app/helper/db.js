@@ -6,7 +6,7 @@ var Sqlite = require("nativescript-sqlite");
 
 
 //opens the database connection within the constructor
-var db_promise = new Sqlite("mainDBmV", function(err, db) {
+var db_promise = new Sqlite("mainDBmVA", function(err, db) {
     if (err) {
         console.error("We failed to open database", err);
     } else {
@@ -27,7 +27,7 @@ db_promise.then(function(db) {
      })
 
     
-    db.execSQL("CREATE TABLE IF NOT EXISTS articles (id INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Description TEXT, CrawlDate TEXT, Source TEXT, Author TEXT, Url TEXT, UrlToImage TEXT, tag TEXT, souceImageUrl TEXT, postType TEXT, newsType TEXT, latLng TEXT )").then(id=>{
+    db.execSQL("CREATE TABLE IF NOT EXISTS articles (id INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Description TEXT, CrawlDate TEXT, Source TEXT, Author TEXT, Url TEXT, UrlToImage TEXT, tag TEXT, souceImageUrl TEXT, postType TEXT, newsType TEXT, latLng TEXT, originalID TEXT )").then(id=>{
      },error=>{
      })
      db.execSQL("CREATE TABLE IF NOT EXISTS articles_fav (id INTEGER PRIMARY KEY AUTOINCREMENT, Title TEXT, Description TEXT, CrawlDate TEXT, Source TEXT, Author TEXT, Url TEXT, UrlToImage TEXT, tag TEXT, souceImageUrl TEXT, postType TEXT, newsType TEXT, latLng TEXT )").then(id=>{
@@ -96,7 +96,7 @@ class ArticlesRelated{
         db_promise.then(function(db) {
 
             //adds saved search to the database
-            db.execSQL("INSERT INTO articles (Title,Description,CrawlDate,Source, Author, Url ,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [
+            db.execSQL("INSERT INTO articles (Title,Description,CrawlDate,Source, Author, Url ,UrlToImage, tag, souceImageUrl, postType, newsType, latLng,originalID  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", [
                 articleData.Title,
                 articleData.Description,
                 articleData.CrawlDate,
@@ -108,7 +108,8 @@ class ArticlesRelated{
                 articleData.souceImageUrl,
                 articleData.postType,
                 articleData.newsType,
-                articleData.latLng
+                articleData.latLng,
+                articleData.originalID
             ]).then(id => {
              }, error => {
              })
@@ -120,7 +121,7 @@ class ArticlesRelated{
         return new Promise((resolve,reject)=>{
             //grabs all recent article 
             db_promise.then(function(db) {
-                db.all("SELECT DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng FROM articles ORDER BY id DESC").then(rows=>{
+                db.all("SELECT DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng, originalID FROM articles ORDER BY CrawlDate DESC").then(rows=>{
                     
                      resolve(rows);
                 },error=>{
@@ -134,7 +135,7 @@ class ArticlesRelated{
          return new Promise((resolve,reject)=>{
             //filter articles by source
             db_promise.then(function(db) {
-                db.all("SELECT  DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles  WHERE  Source=? ORDER BY id DESC",[source]).then(rows=>{
+                db.all("SELECT  DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles  WHERE  Source=? ORDER BY CrawlDate DESC",[source]).then(rows=>{
                     resolve(rows);
             },error=>{
              })
@@ -148,7 +149,7 @@ class ArticlesRelated{
         return new Promise((resolve,reject)=>{
             //filter articles by source
             db_promise.then(function(db) {
-                db.all("SELECT  DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles  WHERE  Title LIKE ? ORDER BY id DESC",["%"+query+"%"]).then(rows=>{
+                db.all("SELECT  DISTINCT(Title) id, Title,Description,CrawlDate,Source, Author,Url,UrlToImage, tag, souceImageUrl, postType, newsType, latLng  FROM articles  WHERE  Title LIKE ? ORDER BY CrawlDate DESC",["%"+query+"%"]).then(rows=>{
                     resolve(rows);
             },error=>{
              })
@@ -171,7 +172,18 @@ class ArticlesRelated{
                 })
         })
     
-    }    
+    } 
+    
+    getTotalLocal(){
+        return new Promise((resolve,reject)=>{
+            //grabs all sources
+            db_promise.then(function(db) {
+                 db.all("SELECT COUNT(id) FROM articles ").then(rows=>{
+                     resolve(rows);
+                })
+            })
+    })
+    }
 }
 
 //handles saving favourite articles
